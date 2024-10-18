@@ -1,7 +1,8 @@
+// src/context/AuthContext.tsx
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import axios from 'axios';
-import * as buffer from 'buffer'; // Import Buffer for compatibility
+import * as buffer from 'buffer';  // Import Buffer for compatibility
 
 // Make Buffer globally available (required for ethers.js in some environments)
 window.Buffer = buffer.Buffer;
@@ -40,7 +41,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Sign in with Ethereum (no tokens, only state management)
+  // Sign in with Ethereum (MetaMask signature verification)
   const signIn = async () => {
     if (!walletAddress) {
       console.error('No wallet address found. Please connect your wallet.');
@@ -57,14 +58,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const message = `${walletAddress} wants you to sign in:\nNonce: ${nonce}`;
       const signature = await signer.signMessage(message);
 
-      // Send signed message to backend to validate login
+      // Send signed message to backend to validate login and get token
       const { data } = await axios.post('http://localhost:5000/login', {
         message,
         signature,
         walletAddress,
       });
 
-      // If successful, update state (no token required)
+      // Store the JWT token and update signed-in state
+      localStorage.setItem('token', data.token);  // Store JWT token
       setIsSignedIn(true);
     } catch (error) {
       console.error('Sign-in failed:', error.response?.data || error.message);
@@ -72,16 +74,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Sign out the user and clear session (just local state management)
+  // Sign out the user and clear session (local state management)
   const signOut = () => {
     localStorage.removeItem('walletAddress');
+    localStorage.removeItem('token');  // Clear the token
     setWalletAddress(null);
     setIsSignedIn(false);
   };
 
+  // Check for token and validate session on page load
   useEffect(() => {
     const savedAddress = localStorage.getItem('walletAddress');
-    if (savedAddress) {
+    const token = localStorage.getItem('token');
+
+    // If both token and wallet address exist, consider the user signed in
+    if (savedAddress && token) {
       setWalletAddress(savedAddress);
       setIsSignedIn(true);
     }
