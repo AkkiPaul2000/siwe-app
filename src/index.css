@@ -1,68 +1,147 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+/* Global Styles for Light and Dark Mode */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+html,
+body,
+#root {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    /* Global font style */
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
+/* Light Mode */
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
+body.light {
     background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+    color: #000000;
+    background-image: url('/public/cryptoLight.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    animation: lightModeAnimation 10s infinite alternate;
+}
+
+@keyframes lightModeAnimation {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+
+/* Dark Mode */
+
+body.dark {
+    background-color: #121212;
+    color: #ffffff;
+    background-image: url('/public/cryptoDark.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    animation: darkModeAnimation 10s infinite alternate;
+}
+
+@keyframes darkModeAnimation {
+    0% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+
+/* Button Styling for Light Mode */
+
+body.light button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    margin: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body.light button:hover {
+    background-color: #2980b9;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+/* Button Styling for Dark Mode */
+
+body.dark button {
+    background-color: #bb86fc;
+    color: black;
+    border: none;
+    padding: 12px 24px;
+    margin: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+}
+
+body.dark button:hover {
+    background-color: #9b6ee4;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 8px rgba(255, 255, 255, 0.2);
+}
+
+
+/* h1 Styling for Light Mode */
+
+body.light h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #000000;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+
+/* h1 Styling for Dark Mode */
+
+body.dark h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+
+/* p Styling for Light Mode */
+
+body.light p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: #333333;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+
+/* p Styling for Dark Mode */
+
+body.dark p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: #dddddd;
+    text-align: center;
+    margin-bottom: 15px;
 }

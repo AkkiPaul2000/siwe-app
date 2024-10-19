@@ -1,0 +1,16 @@
+/* src/components/Login.module.css */
+
+.container {
+    text-align: center;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.error {
+    color: red;
+    margin-bottom: 10px;
+}

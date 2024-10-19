@@ -2,9 +2,10 @@
 import React, { useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import styles from './Login.module.css';
 
 const Login = () => {
-  const { walletAddress, connectWallet, signIn, isSignedIn } = useAuth();
+  const { walletAddress, connectWallet, signIn, isSignedIn, toggleMode, mode } = useAuth();
   const navigate = useNavigate();
 
   // Redirect to dashboard if user is already signed in
@@ -15,7 +16,7 @@ const Login = () => {
   }, [isSignedIn, navigate]);
 
   return (
-    <div>
+    <div className={styles.container}>
       <h1>Login with Ethereum</h1>
       {!walletAddress ? (
         <button onClick={connectWallet}>Connect Wallet</button>
@@ -27,6 +28,10 @@ const Login = () => {
           )}
         </div>
       )}
+      {/* Toggle theme button */}
+      <button onClick={toggleMode}>
+        Toggle to {mode === 'light' ? 'Dark' : 'Light'} Mode
+      </button>
     </div>
   );
 };

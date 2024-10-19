@@ -1,4 +1,3 @@
-// src/context/AuthContext.tsx
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import axios from 'axios';
@@ -11,9 +10,11 @@ window.Buffer = buffer.Buffer;
 interface AuthContextType {
   walletAddress: string | null;
   isSignedIn: boolean;
+  mode: 'light' | 'dark';
   connectWallet: () => Promise<void>;
   signIn: () => Promise<void>;
   signOut: () => void;
+  toggleMode: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -24,6 +25,7 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
+  const [mode, setMode] = useState<'light' | 'dark'>('dark');  // Default mode to 'dark'
 
   // Connect to the wallet (MetaMask)
   const connectWallet = async () => {
@@ -82,12 +84,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsSignedIn(false);
   };
 
-  // Check for token and validate session on page load
+  // Toggle the theme mode (light/dark)
+  const toggleMode = () => {
+    const newMode = mode === 'light' ? 'dark' : 'light';
+    document.body.classList.remove(mode);  // Remove the current mode class
+    document.body.classList.add(newMode);  // Add the new mode class
+
+    setMode(newMode);  // Update mode in state
+    localStorage.setItem('mode', newMode);  // Persist new mode in localStorage
+  };
+
+  // Set the body class and persist mode
   useEffect(() => {
     const savedAddress = localStorage.getItem('walletAddress');
     const token = localStorage.getItem('token');
+    const savedMode = (localStorage.getItem('mode') as 'light' | 'dark') || 'dark';  // Default to 'dark' mode
 
-    // If both token and wallet address exist, consider the user signed in
+    if (savedMode) {
+      setMode(savedMode);
+      document.body.classList.add(savedMode);  // Set the initial body class for theme
+    }
+
     if (savedAddress && token) {
       setWalletAddress(savedAddress);
       setIsSignedIn(true);
@@ -95,7 +112,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ walletAddress, isSignedIn, connectWallet, signIn, signOut }}>
+    <AuthContext.Provider value={{ walletAddress, isSignedIn, connectWallet, signIn, signOut, mode, toggleMode }}>
       {children}
     </AuthContext.Provider>
   );
