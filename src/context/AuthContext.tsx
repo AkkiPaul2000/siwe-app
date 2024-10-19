@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import axios from 'axios';
 import * as buffer from 'buffer';  // Import Buffer for compatibility
+import { API_URL } from '../api';
 
 // Make Buffer globally available (required for ethers.js in some environments)
 window.Buffer = buffer.Buffer;
@@ -55,13 +56,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const signer = provider.getSigner();
 
       // Request nonce from the backend
-      const { data: { nonce } } = await axios.get(`http://localhost:5000/nonce?wallet=${walletAddress}`);
+      const { data: { nonce } } = await axios.get(`${API_URL}/nonce?wallet=${walletAddress}`);
 
       const message = `${walletAddress} wants you to sign in:\nNonce: ${nonce}`;
       const signature = await signer.signMessage(message);
 
       // Send signed message to backend to validate login and get token
-      const { data } = await axios.post('http://localhost:5000/login', {
+      const { data } = await axios.post(`${API_URL}/login`, {
         message,
         signature,
         walletAddress,

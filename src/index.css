@@ -20,7 +20,7 @@ body,
 body.light {
     background-color: #ffffff;
     color: #000000;
-    background-image: url('/public/cryptoLight.jpg');
+    background-image: url('/cryptoLight.jpg');
     background-size: cover;
     background-attachment: fixed;
     animation: lightModeAnimation 10s infinite alternate;
@@ -41,7 +41,7 @@ body.light {
 body.dark {
     background-color: #121212;
     color: #ffffff;
-    background-image: url('/public/cryptoDark.jpg');
+    background-image: url('/cryptoDark.jpg');
     background-size: cover;
     background-attachment: fixed;
     animation: darkModeAnimation 10s infinite alternate;

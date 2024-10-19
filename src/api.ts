@@ -1,7 +1,8 @@
 //api.ts
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000';
+// const API_URL = 'http://localhost:5000';
+export const API_URL = 'https://siwe-backend-39yg.onrender.com';
 
 export const getNonce = async (walletAddress: string) => {
   return axios.get(`${API_URL}/nonce?wallet=${walletAddress}`);
